@@ -38,3 +38,5 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# ignore the generated python classes as well
+models/python/airbyte_types/

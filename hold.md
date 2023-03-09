@@ -1,18 +1,39 @@
 # airbyte-types
 
-## Todo
+## TODO before release
 - [x] Fork this as airbyte types
-- [ ] Make a generalized approach to this
-- [ ] import airbyte protocol
-- [ ] add versions
-- [ ] add publishing
+- [x] Make a generalized approach to this
+- [x] import airbyte protocol
+- [ ] ensure we are publishing on maven central
+- [ ] ensure we are publishing on pypi
 - [ ] add asdf plugin
 
-Declares the Airbyte Protocol.
+## Overview
+This package is responsible for generating the types used across Airbyte's projects.
+
+It defines the types in yaml and then uses
+
+- [jsonschema2pojo](https://github.com/joelittlejohn/jsonschema2pojo) to generate the java types
+- [datamodel-code-generator](https://github.com/koxudaxi/datamodel-code-generator) to generate the python types
 
 ## Key Files
-* `airbyte_types.yaml` - declares the Airbyte Protocol (in JSONSchema)
-* `io.airbyte.protocol.models` - this package contains various java helpers for working with the protocol.
+* `models/src/main/resources/*.yaml` - declares the Airbyte Types (in JSONSchema)
+* `io.airbyte.types.models` - this package contains various java helpers for working with the protocol.
+* `models/bin/generate-python-classes.sh` - this script generates the python types.
+
+## How to generate the types
+### Java
+```bash
+./gradlew :models:generateJsonSchema2Pojo
+```
+
+### Python
+```bash
+./models/bin/generate-python-classes.sh
+```
+
+## How to publish the libraries
+**TODO**
 
 
 ## Pull Requests Titles Must Conform to Convential Commits Convention

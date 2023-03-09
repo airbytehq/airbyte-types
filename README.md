@@ -1,3 +1,5 @@
+# WIP: Not currently in use!
+
 # airbyte-types
 
 ## TODO before release

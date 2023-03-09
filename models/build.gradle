@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation 'javax.validation:validation-api:1.1.0.Final'
     implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation libs.airbyte.protocol
 }
 
 jsonSchema2Pojo {
@@ -15,7 +16,7 @@ jsonSchema2Pojo {
     targetDirectory = new File(project.buildDir, 'generated/src/gen/java/')
     removeOldOutput = true
 
-    targetPackage = 'io.airbyte-types.models'
+    targetPackage = 'io.airbyte.types.models'
 
     useLongIntegers = true
     generateBuilders = true

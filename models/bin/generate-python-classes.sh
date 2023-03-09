@@ -10,7 +10,7 @@ ROOT_DIR=${ROOT_DIR:-$(git rev-parse --show-toplevel)}
 
 
 
-YAML_DIR=models/src/main/resources/airbyte_types
+YAML_DIR=models/src/main/resources
 OUTPUT_DIR=models/python/airbyte_types/models
 
 pip install datamodel_code_generator==0.11.19
@@ -24,6 +24,8 @@ echo "name = 'models'" >> "$ROOT_DIR/$OUTPUT_DIR"/__init__.py
 for f in "$ROOT_DIR/$YAML_DIR"/*.yaml; do
   filename_wo_ext=$(basename "$f" | cut -d . -f 1)
   echo "from .$filename_wo_ext import *" >> "$ROOT_DIR/$OUTPUT_DIR"/__init__.py
+
+  echo "Generating $filename_wo_ext.py from $f"
 
   datamodel-codegen \
     --input "$ROOT_DIR/$YAML_DIR/$filename_wo_ext.yaml" \

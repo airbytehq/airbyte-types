@@ -4,7 +4,6 @@
 title: AllowedHosts
 description: A connector's allowed hosts.  If present, the platform will limit communication to only hosts which are listed in `AllowedHosts.hosts`.
 type: object
-required:
 additionalProperties: true
 properties:
   hosts:

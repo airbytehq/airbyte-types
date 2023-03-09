@@ -9,6 +9,7 @@
 - [ ] ensure we are publishing on maven central
 - [ ] ensure we are publishing on pypi
 - [ ] add asdf plugin
+- [ ] make repo public
 
 ## Overview
 This package is responsible for generating the types used across Airbyte's projects.

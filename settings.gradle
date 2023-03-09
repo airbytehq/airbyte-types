@@ -55,4 +55,4 @@ dependencyResolutionManagement {
     }
 }
 
-include ':protocol-models'
+include ':models'

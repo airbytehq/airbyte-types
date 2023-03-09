@@ -1,16 +1,17 @@
 # airbyte-types
 
 ## Todo
-- [ ] TODO
-- [ ] Fork this as airbyte types
+- [x] Fork this as airbyte types
 - [ ] Make a generalized approach to this
+- [ ] import airbyte protocol
 - [ ] add versions
 - [ ] add publishing
+- [ ] add asdf plugin
 
 Declares the Airbyte Protocol.
 
 ## Key Files
-* `airbyte_protocol.yaml` - declares the Airbyte Protocol (in JSONSchema)
+* `airbyte_types.yaml` - declares the Airbyte Protocol (in JSONSchema)
 * `io.airbyte.protocol.models` - this package contains various java helpers for working with the protocol.
 
 

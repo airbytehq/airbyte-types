@@ -67,7 +67,7 @@ jobs:
       # python
       - name: Generate Protocol Classes
         if: ${{ steps.release.outputs.release_created }}
-        run: protocol-models/bin/generate-python-classes-docker.sh
+        run: models/bin/generate-python-classes-docker.sh
 
       - name: Publish Python Package
         if: ${{ steps.release.outputs.release_created }}
@@ -76,7 +76,7 @@ jobs:
           # specify the same version as in ~/.python-version
           python_version: "3.9.11"
           pip_version: "21.1"
-          subdir: "protocol-models/python/"
+          subdir: "models/python/"
         env:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}

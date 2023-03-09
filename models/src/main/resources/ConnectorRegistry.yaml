@@ -1,0 +1,18 @@
+---
+"$schema": http://json-schema.org/draft-07/schema#
+"$id": https://github.com/airbytehq/airbyte-types/blob/master/models/src/main/resources/ConnectorRegistry.yaml
+title: ConnectorRegistry
+description: Used to provide the connector catalog from a remote source
+type: object
+required:
+  - destinations
+  - sources
+properties:
+  destinations:
+    type: array
+    items:
+      $ref: ConnectorRegistryDestinationDefinition.yaml
+  sources:
+    type: array
+    items:
+      $ref: ConnectorRegistrySourceDefinition.yaml

@@ -34,3 +34,5 @@ task generateProtocolClassFiles(type: Exec) {
 
     commandLine 'bin/generate-python-classes-docker.sh'
 }
+
+test.dependsOn generateProtocolClassFiles

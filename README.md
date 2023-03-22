@@ -3,9 +3,8 @@
 # airbyte-types
 
 ## TODO before release
-- [x] Fork this as airbyte types
-- [x] Make a generalized approach to this
-- [x] import airbyte protocol
+- [ ] update publish section
+- [ ] ensure that the packages are published to the correct place
 - [ ] make repo public
 
 ## Overview
@@ -22,6 +21,11 @@ It defines the types in yaml and then uses
 * `models/bin/generate-python-classes.sh` - this script generates the python types.
 
 ## How to generate the types
+### All
+```bash
+./gradlew build
+```
+
 ### Java
 ```bash
 ./gradlew :models:generateJsonSchema2Pojo

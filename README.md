@@ -6,9 +6,6 @@
 - [x] Fork this as airbyte types
 - [x] Make a generalized approach to this
 - [x] import airbyte protocol
-- [ ] ensure we are publishing on maven central
-- [ ] ensure we are publishing on pypi
-- [ ] add asdf plugin
 - [ ] make repo public
 
 ## Overview

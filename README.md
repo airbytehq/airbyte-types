@@ -23,7 +23,7 @@ It defines the types in yaml and then uses
 ## How to generate the types
 ### All
 ```bash
-./gradlew build
+./gradlew :generate
 ```
 
 ### Java

@@ -4,6 +4,7 @@
 
 package io.types.models;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.airbyte.types.models.ConnectorRegistry;
@@ -30,13 +31,14 @@ import org.reflections.scanners.SubTypesScanner;
 class ConnectorRegistrySchemaTest {
   final Path RESOURCE_DIRECTORY = Paths.get("src","main","resources");
   final Path PYTHON_OUTPUT_DIRECTORY = Paths.get("python","airbyte_types","models");
+  final String JAVA_OUTPUT_PACKAGE = "io.airbyte.types.models";
 
-  private static List<String> getJsonFieldNames(Class<?> clazz) {
-    List<String> fieldNames = new ArrayList<>();
-    Field[] fields = clazz.getDeclaredFields();
+  private static List<String> getJsonFieldNames(final Class<?> clazz) {
+    final List<String> fieldNames = new ArrayList<>();
+    final Field[] fields = clazz.getDeclaredFields();
 
-    for (Field field : fields) {
-      JsonProperty jsonProperty = field.getAnnotation(JsonProperty.class);
+    for (final Field field : fields) {
+      final JsonProperty jsonProperty = field.getAnnotation(JsonProperty.class);
       if (jsonProperty != null) {
         fieldNames.add(field.getName());
       }
@@ -45,41 +47,39 @@ class ConnectorRegistrySchemaTest {
     return fieldNames;
   }
 
-  private long countFilesAtPath(Path directoryPath) throws IOException {
+  private long countFilesAtPath(final Path directoryPath) throws IOException {
     // get all files in resources folder
-    long fileCount = Files.walk(directoryPath)
+    return Files.walk(directoryPath)
       .filter(Files::isRegularFile)
       .count();
-
-    return fileCount;
   }
 
-  private long countClassesAtPackage(String packageName) throws IOException {
-    Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-    Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+  private long countClassesAtPackage(final String packageName) {
+    final Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
+    final Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
     return classes.size();
   }
 
   @Test
   void testRegistryFields() throws IOException {
     // ensure that sources and destinations set as fields
-    List<String> expectedFieldNames = Arrays.asList("sources", "destinations");
-    List<String> actualFieldNames = getJsonFieldNames(ConnectorRegistry.class);
+    final List<String> expectedFieldNames = Arrays.asList("sources", "destinations");
+    final List<String> actualFieldNames = getJsonFieldNames(ConnectorRegistry.class);
     assertTrue(expectedFieldNames.containsAll(actualFieldNames) );
   }
 
   @Test
   void testAllFilesGenerated() throws IOException {
-    long inputYamlFileCount = countFilesAtPath(RESOURCE_DIRECTORY);
+    final long inputYamlFileCount = countFilesAtPath(RESOURCE_DIRECTORY);
 
     // account for the __init__.py file
-    long outputPythonFileCount = countFilesAtPath(PYTHON_OUTPUT_DIRECTORY) - 1;
+    final long outputPythonFileCount = countFilesAtPath(PYTHON_OUTPUT_DIRECTORY) - 1;
 
     // count how many classes are in  io.airbyte.types.models
-    long outputJavaClassCount = countClassesAtPackage("io.airbyte.types.models");
+    final long outputJavaClassCount = countClassesAtPackage(JAVA_OUTPUT_PACKAGE);
 
-    assertTrue(outputJavaClassCount == inputYamlFileCount);
-    assertTrue(outputJavaClassCount == outputPythonFileCount);
+    assertEquals(outputJavaClassCount, inputYamlFileCount);
+    assertEquals(outputJavaClassCount, outputPythonFileCount);
   }
 
 

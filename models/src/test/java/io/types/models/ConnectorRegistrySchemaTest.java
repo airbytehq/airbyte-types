@@ -8,19 +8,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.airbyte.types.models.ConnectorRegistry;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 
+import org.reflections.Reflections;
+
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.reflections.scanners.SubTypesScanner;
+
+
 class ConnectorRegistrySchemaTest {
+  final Path RESOURCE_DIRECTORY = Paths.get("src","main","resources");
+  final Path PYTHON_OUTPUT_DIRECTORY = Paths.get("python","airbyte_types","models");
+
   private static List<String> getJsonFieldNames(Class<?> clazz) {
     List<String> fieldNames = new ArrayList<>();
     Field[] fields = clazz.getDeclaredFields();
@@ -35,33 +45,42 @@ class ConnectorRegistrySchemaTest {
     return fieldNames;
   }
 
+  private long countFilesAtPath(Path directoryPath) throws IOException {
+    // get all files in resources folder
+    long fileCount = Files.walk(directoryPath)
+      .filter(Files::isRegularFile)
+      .count();
+
+    return fileCount;
+  }
+
+  private long countClassesAtPackage(String packageName) throws IOException {
+    Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
+    Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+    return classes.size();
+  }
+
   @Test
-  void testFile() throws IOException {
+  void testRegistryFields() throws IOException {
     // ensure that sources and destinations set as fields
-    List<String> expectedFieldNames = Arrays.asList("sources", "destinations", "C");
+    List<String> expectedFieldNames = Arrays.asList("sources", "destinations");
     List<String> actualFieldNames = getJsonFieldNames(ConnectorRegistry.class);
     assertTrue(expectedFieldNames.containsAll(actualFieldNames) );
   }
-  //
-  // @Test
-  // void testFile() throws IOException {
-  // final String schema = Files.readString(ConnectorRegistry.PROTOCOL.getFile().toPath(),
-  // StandardCharsets.UTF_8);
-  // assertTrue(schema.contains("title"));
-  // }
-  //
-  // @Test
-  // void testPrepareKnownSchemas() {
-  // for (final AirbyteProtocolSchema value : AirbyteProtocolSchema.values()) {
-  // assertTrue(Files.exists(value.getFile().toPath()));
-  // }
-  // }
-  //
-  // @Test
-  // void testJsonSchemaType() {
-  // for (final AirbyteProtocolSchema value : AirbyteProtocolSchema.values()) {
-  // assertTrue(Files.exists(value.getFile().toPath()));
-  // }
-  // }
+
+  @Test
+  void testAllFilesGenerated() throws IOException {
+    long inputYamlFileCount = countFilesAtPath(RESOURCE_DIRECTORY);
+
+    // account for the __init__.py file
+    long outputPythonFileCount = countFilesAtPath(PYTHON_OUTPUT_DIRECTORY) - 1;
+
+    // count how many classes are in  io.airbyte.types.models
+    long outputJavaClassCount = countClassesAtPackage("io.airbyte.types.models");
+
+    assertTrue(outputJavaClassCount == inputYamlFileCount);
+    assertTrue(outputJavaClassCount == outputPythonFileCount);
+  }
+
 
 }

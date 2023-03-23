@@ -38,6 +38,7 @@ It defines the types in yaml and then uses
 
 ## How to publish the libraries
 **TODO**
+Deploys to maven central and pypi automatically on merge to master.
 
 
 ## Pull Requests Titles Must Conform to Convential Commits Convention

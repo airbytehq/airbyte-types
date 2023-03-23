@@ -1,11 +1,5 @@
-# WIP: Not currently in use!
 
 # airbyte-types
-
-## TODO before release
-- [ ] update publish section
-- [ ] ensure that the packages are published to the correct place
-- [ ] make repo public
 
 ## Overview
 This package is responsible for generating the types used across Airbyte's projects.

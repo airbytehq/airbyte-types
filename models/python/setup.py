@@ -29,7 +29,7 @@ VERSION = os.getenv("VERSION") # use version declared in top level .env file
 setup(
     name='airbyte_types',
     version=VERSION,
-    description="Declares the Airbyte Protocol.",
+    description="Declares common types used across airbyte projects.",
     long_description=README,
     long_description_content_type="text/markdown",
     author="Airbyte",

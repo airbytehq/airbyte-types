@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation 'javax.validation:validation-api:1.1.0.Final'
     implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'org.reflections:reflections:0.9.12'
     implementation libs.airbyte.protocol
 }
 
@@ -27,9 +28,11 @@ jsonSchema2Pojo {
 Task publishArtifactsTask = getPublishArtifactsTask("$rootProject.ext.version", project)
 
 task generateProtocolClassFiles(type: Exec) {
-    inputs.dir 'src/main/resources/airbyte_types'
+    inputs.dir 'src/main/resources'
     inputs.dir 'bin'
     outputs.dir 'python/airbyte_types/models'
 
     commandLine 'bin/generate-python-classes-docker.sh'
 }
+
+test.dependsOn generateProtocolClassFiles
